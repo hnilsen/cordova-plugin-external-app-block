@@ -23,9 +23,11 @@ import org.apache.cordova.CordovaPlugin;
 import android.util.Log;
 
 public class ExternalAppBlock extends CordovaPlugin {
-
     public boolean onOverrideUrlLoading(String url) {
-        Log.d("XXX", "Checking " + url + (!(url.startsWith("file://") | url.startsWith("data:")) ? ": BLOCK" : ": PASS"));
-        return !(url.startsWith("file://") | url.startsWith("data:"));
+        boolean unsupportedURL = url.startsWith("intent:");
+        if(unsupportedURL) {
+            Log.d("XXX", "BLOCKED URL: " + url);
+        }
+        return unsupportedURL; // true equals block, false equals pass
     }
 }
